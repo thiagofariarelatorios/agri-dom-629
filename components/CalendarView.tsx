@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useData } from './DataContext';
 import { RoomStatus, Reservation, ReservationStatus } from '../types';
@@ -233,16 +234,16 @@ export const CalendarView: React.FC = () => {
             <header className="flex-shrink-0 flex items-center justify-between p-4 bg-gradient-to-r from-indigo-700 to-purple-600 text-white rounded-t-lg">
                 <h1 className="text-2xl font-bold">Calendar</h1>
                 <div className="flex items-center space-x-2 md:space-x-4">
-                    <button onClick={handlePrev} className="p-2 rounded-full hover:bg-white/20 transition-colors"><ChevronLeftIcon className="w-6 h-6" /></button>
+                    <button onClick={() => setViewStartDate(addDays(viewStartDate, -viewDays))} className="p-2 rounded-full hover:bg-white/20 transition-colors"><ChevronLeftIcon className="w-6 h-6" /></button>
                     <span className="text-lg font-semibold w-48 text-center">{dateRangeString}</span>
-                    <button onClick={handleNext} className="p-2 rounded-full hover:bg-white/20 transition-colors"><ChevronRightIcon className="w-6 h-6" /></button>
+                    <button onClick={() => setViewStartDate(addDays(viewStartDate, viewDays))} className="p-2 rounded-full hover:bg-white/20 transition-colors"><ChevronRightIcon className="w-6 h-6" /></button>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <button onClick={handleToday} className="px-4 py-2 text-sm font-semibold bg-white/10 border border-white/20 rounded-md hover:bg-white/20 backdrop-blur-sm transition-colors">Hoje</button>
+                    <button onClick={() => setViewStartDate(new Date(new Date().setHours(0,0,0,0)))} className="px-4 py-2 text-sm font-semibold bg-white/10 border border-white/20 rounded-md hover:bg-white/20 backdrop-blur-sm transition-colors">Hoje</button>
                      <div className="relative">
                         <select 
                             value={viewDays}
-                            onChange={e => setViewDays(parseInt(e.target.value, 10))}
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setViewDays(parseInt(e.target.value, 10))}
                             className="appearance-none cursor-pointer px-4 py-2 text-sm font-semibold bg-white/10 border border-white/20 rounded-md hover:bg-white/20 backdrop-blur-sm transition-colors pr-8"
                         >
                             <option value="7">7 dias</option>
@@ -261,7 +262,6 @@ export const CalendarView: React.FC = () => {
                     <div className="sticky left-0 z-20">
                         <div className="sticky top-0 p-2 font-semibold text-left bg-gray-150 border-b border-r border-gray-200 h-16 flex items-center">Quartos</div>
                         {rooms.map((room) => {
-                            const isPast = days.some(day => day < today);
                             const roomBgClass = getRoomStatusRowClass(room.status);
                             return (
                                 <div key={room.id} className={`p-3 flex flex-col justify-center border-r border-b border-gray-200 transition-colors duration-300 ${roomBgClass}`} style={{ height: `${rowHeight}px` }}>
@@ -269,7 +269,7 @@ export const CalendarView: React.FC = () => {
                                     <div className="flex items-center mt-1">
                                         <select 
                                             value={room.status}
-                                            onChange={(e) => updateRoomStatus(room.id, e.target.value as RoomStatus)}
+                                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateRoomStatus(room.id, e.target.value as RoomStatus)}
                                             className="text-xs border border-gray-300 rounded-md px-2 py-1 bg-white focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition"
                                         >
                                             <option>Limpo</option>
@@ -286,7 +286,7 @@ export const CalendarView: React.FC = () => {
                     <div className="overflow-x-visible">
                         <div className="grid" style={{ gridTemplateColumns: `repeat(${viewDays}, minmax(100px, 1fr))` }}>
                            {/* Day Headers */}
-                            {days.map(day => {
+                            {days.map((day: Date) => {
                                 const isToday = day.getTime() === today.getTime();
                                 return (
                                     <div key={day.toISOString()} className="sticky top-0 z-10 p-2 text-center bg-gray-50 border-b border-r border-gray-200 h-16 flex flex-col justify-center">
@@ -300,7 +300,7 @@ export const CalendarView: React.FC = () => {
                         <div ref={timelineGridRef} className="relative grid" style={{ height: `${rooms.length * rowHeight}px`, gridTemplateRows: `repeat(${rooms.length}, ${rowHeight}px)`, gridTemplateColumns: `repeat(${viewDays}, minmax(100px, 1fr))`}}>
                             {/* Background grid cells */}
                             {rooms.map((room, rowIndex) => {
-                                 return days.map((day, dayIndex) => {
+                                 return days.map((day: Date, dayIndex: number) => {
                                     const isPast = day < today;
                                     const canCreateReservation = currentUser.role !== 'limpeza';
                                     const cellBgClass = isPast ? 'bg-slate-50' : getRoomStatusRowClass(room.status);

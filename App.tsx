@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Page, User } from './types';
+import { Page } from './types';
 import { Sidebar } from './components/Sidebar';
 import { CalendarView } from './components/CalendarView';
 import { DashboardPage, GuestManagement, RoomManagement, UserManagement, Settings, DailyTasksPage, CompaniesManagement, FinancialManagement, AuditLogPage } from './components/ManagementPages';
@@ -13,7 +13,6 @@ import { CheckoutModal } from './components/CheckoutModal';
 import { ConfirmationModal } from './components/ConfirmationModal';
 import { CompanyModal } from './components/CompanyModal';
 import { CompanyPaymentModal } from './components/CompanyPaymentModal';
-
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('dashboard');
