@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useData } from './DataContext';
 import { RoomStatus, Reservation, ReservationStatus } from '../types';
