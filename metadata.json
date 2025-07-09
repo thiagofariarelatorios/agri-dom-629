@@ -1,0 +1,6 @@
+{
+  "name": "PousadaPro - Sistema de Gestão Hoteleira",
+  "description": "Um sistema completo para gerenciar reservas, hóspedes, quartos e produtos de uma pousada, incluindo um calendário interativo de reservas no estilo Gantt.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
