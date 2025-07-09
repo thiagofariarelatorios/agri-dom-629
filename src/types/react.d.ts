@@ -1,3 +1,4 @@
+
 declare module 'react' {
   import * as React from 'react';
   
@@ -8,9 +9,19 @@ declare module 'react' {
     key: React.Key | null;
   }
 
-  export interface ReactNode {
-    children?: ReactNode;
+  export interface ReactPortal {
+    key: React.Key | null;
+    children: React.ReactNode;
   }
+
+  export interface ReactFragment {
+    key?: React.Key | null;
+    children?: React.ReactNode;
+  }
+
+  export type ReactText = string | number;
+  export type ReactChild = ReactElement | ReactText;
+  export type ReactNode = ReactChild | ReactFragment | ReactPortal | boolean | null | undefined | ReactNode[];
 
   export type FC<P = {}> = React.FunctionComponent<P>;
   export type FunctionComponent<P = {}> = (props: P) => ReactElement | null;
@@ -69,12 +80,12 @@ declare module 'react' {
 
   // Other types
   export type Key = string | number;
-  export type ReactText = string | number;
   export type Dispatch<A> = (value: A) => void;
   export type SetStateAction<S> = S | ((prevState: S) => S);
   export type EffectCallback = () => (void | (() => void | undefined));
   export type DependencyList = ReadonlyArray<any>;
   export type JSXElementConstructor<P> = ((props: P) => ReactElement | null) | (new (props: P) => Component<P, any>);
+  export type ComponentType<P = {}> = React.ComponentClass<P> | React.FunctionComponent<P>;
 
   // Component class
   export class Component<P = {}, S = {}> {
