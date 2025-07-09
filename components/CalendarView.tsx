@@ -89,7 +89,6 @@ const getRoomStatusRowClass = (status: RoomStatus): string => {
     }
 };
 
-
 interface DraggingInfo {
     reservation: Reservation;
     duration: number;
@@ -128,12 +127,7 @@ export const CalendarView: React.FC = () => {
         return () => window.removeEventListener('resize', calculateDayWidth);
     }, [viewDays]);
 
-
     const getGuestName = (guestId: string) => guests.find(g => g.id === guestId)?.name || 'Desconhecido';
-
-    const handlePrev = () => setViewStartDate(addDays(viewStartDate, -viewDays));
-    const handleNext = () => setViewStartDate(addDays(viewStartDate, viewDays));
-    const handleToday = () => setViewStartDate(new Date(new Date().setHours(0,0,0,0)));
 
     const dateRangeString = useMemo(() => {
         const endDate = addDays(viewStartDate, viewDays - 1);
@@ -207,7 +201,6 @@ export const CalendarView: React.FC = () => {
         };
     }, [draggingInfo, handleMouseMove, handleMouseUp]);
 
-
     const handleReservationMouseDown = (event: React.MouseEvent, reservation: Reservation) => {
         if (!event.shiftKey) return;
         event.preventDefault();
@@ -225,7 +218,6 @@ export const CalendarView: React.FC = () => {
             });
         }
     };
-
 
     return (
         <div className="flex flex-col h-full bg-white rounded-2xl shadow-xl overflow-hidden">
